@@ -1,4 +1,4 @@
-import DataStore from '../../expand/dao/DataStore'
+import DataStore, {FLAG_STORAGE} from '../../expand/dao/DataStore'
 import * as constants from '../../action/constants'
 
 const popularRefresh = (storeName) => ({
@@ -40,7 +40,7 @@ export const onRefreshPopular = (url, storeName, pageSize) => {
     return (dispatch) => {
         const data_store = new DataStore()
         dispatch(popularRefresh(storeName))
-        data_store.fetchData(url).then((data) => {
+        data_store.fetchData(url, FLAG_STORAGE.flag_popular).then((data) => {
             const items = data.data.items
             const projectModels = handleData(items, 1, pageSize)
             dispatch(popularRefreshSuccess(items, projectModels, storeName))
@@ -53,11 +53,13 @@ export const onRefreshPopular = (url, storeName, pageSize) => {
 
 export const onLoadMorePopular = (data, storeName, pageIndex, pageSize) => {
     return (dispatch) => {
-        if(pageSize * pageIndex > data.length) {
-            dispatch(popularLoadMoreFail(data, storeName, pageIndex))
-            return 
-        }
-        const _data = handleData(data, pageIndex, pageSize)
-        dispatch(popularLoadMoreSuccess(_data, storeName, pageIndex, pageSize))
+        setTimeout(() => {
+            if(pageSize * pageIndex > data.length) {
+                dispatch(popularLoadMoreFail(data, storeName, pageIndex))
+                return 
+            }
+            const _data = handleData(data, pageIndex, pageSize)
+            dispatch(popularLoadMoreSuccess(_data, storeName, pageIndex, pageSize))
+        },500)
     }
 }

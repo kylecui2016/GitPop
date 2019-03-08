@@ -9,7 +9,7 @@ export default class NavigatorUtils {
     }
     static goBack(params) {
         const { navigation } = params
-        navigation.goback()
+        navigation.goBack()
     }
     static resetToHome(params) {
         const { navigation } = params

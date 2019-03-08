@@ -49,10 +49,12 @@ export default class PopularPage extends Component<Props> {
           upperCaseLabel: false,
           scrollEnabled: true,
           style: {
-            backgroundColor: '#678'
+            backgroundColor: '#678',
+            height: 40
           },
           indicatorStyle: styles.indicatorStyle,
-          labelStyle: styles.labelStyle
+          labelStyle: styles.labelStyle,
+          tabStyle: styles.tabStyle
         }
       }))
     return <TopNavigator />
@@ -87,17 +89,17 @@ class PopularTab extends Component<Props> {
         ListFooterComponent={() => {return this.getFooterIndicator()}}
         onEndReached={() => {
           this.loadMore()
-          // setTimeout(() => {
-          //   if(this.canLoadMore) {
-          //     this.loadMore()
-          //     this.canLoadMore = false
-          //   }
-          // }, 100)
+          setTimeout(() => {
+            if(this.canLoadMore) {
+              this.loadMore()
+              this.canLoadMore = false
+            }
+          }, 100)
         }}
         onEndReachedThreshold={0.1}
-        // onScrollBeginDrag={() => {
-        //   this.canLoadMore = true
-        // }}
+        onScrollBeginDrag={() => {
+          this.canLoadMore = true
+        }}
       />
     )
   }
@@ -200,14 +202,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
   },
+  tabStyle: {
+    padding: 0
+  },
   indicatorStyle: {
     height: 2,
     backgroundColor: 'white'
   },
   labelStyle: {
-    fontSize: 13,
-    marginTop: 6,
-    marginBottom: 6
+    fontSize: 13
   },
   item_container: {
     paddingLeft: 20,

@@ -4,7 +4,7 @@ const defaultState = {}
 
 export default (state = defaultState, action) => {
     switch(action.type) {
-        case constants.POPULAR_REFRESH: 
+        case constants.TRENDING_REFRESH:
             return {
                 ...state,
                 [action.storeName]: {
@@ -13,27 +13,28 @@ export default (state = defaultState, action) => {
                     hideLoadingMore: true
                 }
             }
-        case constants.POPULAR_REFRESH_SUCCESS: 
+        case constants.TRENDING_REFRESH_SUCCESS:
             return {
                 ...state,
                 [action.storeName]: {
                     ...state[action.storeName],
-                    items: action.data,
+                    data: action.data,
                     projectModels: action.projectModels,
                     pageIndex: 1,
                     isLoading: false,
                     hideLoadingMore: false
                 }
             }
-        case constants.POPULAR_REFRESH_FAIL: 
+        case constants.TRENDING_REFRESH_FAIL:
             return {
                 ...state,
                 [action.storeName]: {
                     ...state[action.storeName],
-                    isLoading: false
+                    isLoading: false,
+                    error: action.error
                 }
             }
-        case constants.POPULAR_LOADMORE_SUCCESS:
+        case constants.TRENDING_LOADMORE_SUCCESS:
             return {
                 ...state,
                 [action.storeName]: {
@@ -43,7 +44,7 @@ export default (state = defaultState, action) => {
                     pageIndex: action.pageIndex
                 }
             }
-        case constants.POPULAR_LOADMORE_FAIL:
+        case constants.TRENDING_LOADMORE_FAIL:
             return {
                 ...state,
                 [action.storeName]: {

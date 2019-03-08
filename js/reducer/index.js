@@ -3,6 +3,7 @@ import { rootCom, RootNavigator } from '../navigator/AppNavigator';
 import { createNavigationReducer } from 'react-navigation-redux-helpers'
 import theme from './theme'
 import popular from './popular'
+import trending from './trending'
 
 // // 1.制定默认 state
 // const navState = RootNavigator.router.getStateForAction(RootNavigator.router.getActionForPathAndParams(rootCom));
@@ -20,7 +21,8 @@ const navReducer = createNavigationReducer(RootNavigator);
 const reducers = combineReducers({
   nav: navReducer,
   theme: theme,
-  popular: popular
+  popular: popular,
+  trending: trending
 });
 
 export default reducers;

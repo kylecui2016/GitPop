@@ -1,4 +1,10 @@
 import { AsyncStorage } from 'react-native'
+import GitHubTrending from 'GitHubTrending'
+
+export const FLAG_STORAGE = {
+    flag_popular: 'popular',
+    flag_trending: 'trending'
+}
 
 export default class DataStore {
 
@@ -11,20 +17,20 @@ export default class DataStore {
         return {timestamp: new Date().getTime(), data: data}
     }
 
-    fetchData(url) {
+    fetchData(url, flag) {
         return new Promise((resolve, reject) => {
             this.fetchLocalData(url).then((wrappedData) => {
                 if(wrappedData && DataStore.checkTimestampValid(wrappedData.timestamp)) { // 不能用this.checkTimestampValid
                     resolve(wrappedData)
                 }else{
-                    this.fetchNetData(url).then((data) => {
+                    this.fetchNetData(url, flag).then((data) => {
                         resolve(this._wrapData(data))
                     }).catch((e) => {
                         reject(e)
                     })
                 }
             }).catch((e) => {
-                this.fetchNetData(url).then((data) => {
+                this.fetchNetData(url, flag).then((data) => {
                     resolve(this._wrapData(data))
                 }).catch((e) => {
                     reject(e)
@@ -45,9 +51,10 @@ export default class DataStore {
         })
     }
 
-    fetchNetData(url) {
+    fetchNetData(url, flag) {
         return new Promise ((resolve, reject) => {
-            fetch(url)
+            if(flag === FLAG_STORAGE.flag_popular) {
+                fetch(url)
                 .then((response) => {
                     if(response.ok) {
                         return response.json()
@@ -63,6 +70,16 @@ export default class DataStore {
                     reject(e)
                     console.error(e)
                 })
+            }else if(flag === FLAG_STORAGE.flag_trending) {
+                new GitHubTrending().fetchTrending(url)
+                    .then((data) => {
+                        this.saveData(url, data)
+                        resolve(data)
+                    })
+                    .catch((error) => {
+                        reject(error)
+                    })
+            }
         })
     }
 
