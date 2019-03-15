@@ -18,6 +18,8 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import TrendingDialog, {TimeSpans} from '../common/TrendingDialog'
 import TrendingItem from '../common/TrendingItem'
 import NavigatorUtils from '../navigator/NavigatorUtils'
+import FavoriteUtil from '../utils/FavoriteUtil'
+import {FLAG_STORAGE} from '../expand/dao/DataStore'
 
 type Props = {};
 
@@ -152,16 +154,17 @@ class TrendingTab extends Component<Props> {
       renderItem={({item}) => {
         return (
           <TrendingItem
-            data={item}
-            onPress={() => {
+            projectModel={item}
+            onSelect={() => {
               NavigatorUtils.goPage({
-                projectModel: item
+                projectModel: item.item
               },'Detail')
             }}
+            onFavorite={(item, isFavorite) => {FavoriteUtil.onFavorite(item, isFavorite, FLAG_STORAGE.flag_trending)}}
           />
         )
       }}
-      keyExtractor={(item) => item.fullName}
+      keyExtractor={(item) => '' + item.item.fullName}
       refreshControl={
         <RefreshControl 
           onRefresh={() => {this.loadData()}}

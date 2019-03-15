@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native'
 import HTMLView from 'react-native-htmlview'
 import BaseItem from '../common/BaseItem'
 
-export default class TrendingItem extends BaseItem {
+export default class PopularItem extends BaseItem {
     render() {
         const {item} = this.props.projectModel
         return (
@@ -11,33 +11,19 @@ export default class TrendingItem extends BaseItem {
                 style={styles.container}
                 onPress={() => {this.props.onSelect()}}
             >
-                <Text style={styles.title}>{item.fullName}</Text>
-                <HTMLView
-                    value={item.description}
-                    stylesheet={styles.desc}
-                />
-                <HTMLView
-                    value={item.meta}
-                    stylesheet={styles.meta}
-                />
+                <Text style={styles.title}>{item.full_name}</Text>
+                <Text style={styles.desc}>{item.description}</Text>
                 <View style={styles.bottomContainer}>
-                    <View style={styles.contributor}>
-                        <Text style={{marginRight: 6}}>contributor:</Text>
-                        {
-                            item.contributors.map((item, index) => {
-                                return (
-                                    <Image
-                                        source={{uri:item}}
-                                        style={{width: 22, height: 22, marginRight: 3}}
-                                        key={index}
-                                    />
-                                )
-                            })
-                        }
+                    <View style={styles.author}>
+                        <Text>Author:</Text>
+                        <Image 
+                            style={{width: 20, height: 20, marginLeft: 5}}
+                            source={{uri: item.owner.avatar_url}}
+                        />
                     </View>
                     <View style={styles.star}>
                         <Text style={{marginRight: 6}}>stars:</Text>
-                        <Text>{item.starCount}</Text>
+                        <Text>{item.stargazers_count}</Text>
                     </View>
                     {this.renderFavoriteIcon()}
                 </View>
@@ -67,7 +53,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between'
     },
-    contributor: {
+    author: {
         flexDirection: 'row',
     },
     star: {

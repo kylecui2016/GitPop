@@ -16,6 +16,10 @@ import {
   createMaterialTopTabNavigator, 
   createAppContainer // react-navigation 3 需要设置createAppContainer
 } from 'react-navigation'
+import PopularItem from '../common/PopularItem'
+import NavigatorUtils from '../navigator/NavigatorUtils';
+import FavoriteUtil from '../utils/FavoriteUtil'
+import {FLAG_STORAGE} from '../expand/dao/DataStore'
 
 type Props = {};
 
@@ -76,8 +80,8 @@ class PopularTab extends Component<Props> {
     return (
       <FlatList 
         data = {projectModels}
-        renderItem={(item) => this._renderItem(item)}
-        keyExtractor={(item) => item.id.toString()} // keyExtractor 返回值为字符串类型
+        renderItem={({item}) => this._renderItem(item)} // renderItem三个参数item,index,seperator
+        keyExtractor={(item) => item.item.id.toString()} // keyExtractor 返回值为字符串类型
         refreshControl={
           <RefreshControl
             refreshing={isLoading}
@@ -137,6 +141,7 @@ class PopularTab extends Component<Props> {
     if(!store) {
       return {
         items: [],
+        projectModels: [],
         isLoading: false,
         hideLoadingMore: true,
         pageIndex: 1
@@ -146,31 +151,16 @@ class PopularTab extends Component<Props> {
   }
 
   _renderItem(item) {
-    const _item = item.item
     return (
-      <View style={styles.item_container}>
-        <Text style={styles.title}>{_item.full_name}</Text>
-        <Text style={styles.description}>{_item.description}</Text>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <View style={{flexDirection: 'row'}}>
-            <Text>Author:</Text>
-            <Image 
-              style={{width: 20, height: 20, marginLeft: 5}}
-              source={{uri: _item.owner.avatar_url}}
-            />
-          </View>
-          <View style={{flexDirection: 'row'}}>
-            <Text>Stars:</Text>
-            <Text style={{marginLeft: 5}}>{_item.stargazers_count}</Text>
-          </View>
-          <TouchableOpacity style={{marginRight: 30, paddingRight: 20}}>
-            <FontAwesome
-              name={'star-o'}
-              size={24}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
+      <PopularItem 
+        projectModel={item}
+        onSelect={() => {
+          NavigatorUtils.goPage({
+            projectModel: item.item
+          }, 'Detail')
+        }}
+        onFavorite={(item, isFavorite) => {FavoriteUtil.onFavorite(item, isFavorite, FLAG_STORAGE.flag_popular)}}
+      />
     )
   }
 }
