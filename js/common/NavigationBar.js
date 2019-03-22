@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StyleSheet, View, StatusBar, Text, Platform} from 'react-native'
+import {StyleSheet, ViewPropTypes, View, StatusBar, Text, Platform} from 'react-native'
 import {PropTypes} from 'prop-types'
 
 const STATUS_BAR_HEIGHT = 20
@@ -12,13 +12,14 @@ export default class NavigationBar extends Component {
     }
 
     render() {
+        const {style, titleLayoutStyle} = this.props
         let StatusBarEle = this.props.StatusBar.hidden ? null : 
         (<View>
             <StatusBar style={styles.StatusBar} {...this.props.StatusBar}/>
         </View>)
 
         let titleView = this.props.titleView ? this.props.titleView :
-        (<Text ellipsizeMode="head" numberOfLines={1} style={styles.title}>
+        (<Text ellipsizeMode="head" numberOfLines={1} style={[styles.title, titleLayoutStyle]}>
             {this.props.title}
         </Text>)
 
@@ -32,7 +33,7 @@ export default class NavigationBar extends Component {
         </View>)
 
         return (
-            <View style={styles.container}>
+            <View style={[styles.container, style]}>
                 {StatusBarEle}
                 {content}
             </View>
@@ -55,9 +56,11 @@ const StatusBarShape = {
 }
 
 NavigationBar.propTypes = {
+    style: ViewPropTypes.style,
     leftButton: PropTypes.element,
     title: PropTypes.string,
     titleView: PropTypes.element,
+    titleLayoutStyle: ViewPropTypes.style,
     StatusBar: PropTypes.shape(StatusBarShape),
     rightButton: PropTypes.element,
     hide: PropTypes.bool
@@ -93,7 +96,6 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 14,
         color: 'white',
-
     },
     navButton: {
         flexDirection: 'row',

@@ -17,6 +17,7 @@ import PopularPage from './PopularPage'
 import TrendingPage from './TrendingPage'
 import FavoritePage from './FavoritePage'
 import MyPage from './MyPage'
+import UserCenterPage from './UserCenterPage'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import NavigatorUtils from '../navigator/NavigatorUtils';
@@ -80,6 +81,19 @@ const TABS = {
             )
         },
     },
+    UserCenterPage: {
+        screen: UserCenterPage,
+        navigationOptions: {
+            tabBarLabel: '用户中心',
+            tabBarIcon: ({tintColor, focuced}) => (
+                <FontAwesome5
+                    name={'user'}
+                    size={24}
+                    color={tintColor}
+                />
+            )
+        },
+    }
 }
 class DynamicNavigator extends Component<Props> {
     _tabNavigator() {
@@ -90,13 +104,15 @@ class DynamicNavigator extends Component<Props> {
             PopularPage,
             TrendingPage,
             FavoritePage,
-            MyPage
+            MyPage,
+            UserCenterPage
         } = TABS
         const tabs = {
             PopularPage,
             TrendingPage,
             FavoritePage,
-            MyPage
+            MyPage,
+            UserCenterPage
         }
         // PopularPage.navigationOptions.tabBarLabel = '最新'
         return this.Tabs = createAppContainer(createBottomTabNavigator(tabs, {

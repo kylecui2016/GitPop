@@ -5,6 +5,7 @@ import theme from './theme'
 import popular from './popular'
 import trending from './trending'
 import favorite from './favorite'
+import userCenter from './userCenter'
 
 // // 1.制定默认 state
 // const navState = RootNavigator.router.getStateForAction(RootNavigator.router.getActionForPathAndParams(rootCom));
@@ -24,7 +25,8 @@ const reducers = combineReducers({
   theme: theme,
   popular: popular,
   trending: trending,
-  favorite: favorite
+  favorite: favorite,
+  userCenter: userCenter
 });
 
 export default reducers;

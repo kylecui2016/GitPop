@@ -7,6 +7,13 @@ import {
 import WelcomePage from '../page/WelcomePage'
 import HomePage from '../page/HomePage'
 import DetailPage from '../page/DetailPage'
+import MyFavoritesPage from '../page/UserCenter/UserInfo/Favorite'
+import MyCommentsPage from '../page/UserCenter/UserInfo/Comment'
+import MyPushPage from '../page/UserCenter/UserInfo/Push'
+import CheckMessagePage from '../page/UserCenter/UserInfo/Message'
+import HelpPage from '../page/UserCenter/UserInfo/Help'
+import FeedbackPage from '../page/UserCenter/UserInfo/Feedback'
+import SettingsPage from '../page/UserCenter/UserInfo/Settings'
 import FetchDemoPage from '../page/FetchDemoPage'
 import AsyncStoragePage from '../page/AsyncStoragePage'
 import DataStoreDemoPage from '../page/DataStoreDemoPage'
@@ -37,6 +44,48 @@ const MainNavigator = createStackNavigator({
     },
     Detail: {
         screen: DetailPage,
+        navigationOptions: {
+            header: null
+        }
+    },
+    MyFavorites: {
+        screen: MyFavoritesPage,
+        navigationOptions: {
+            header: null
+        }
+    },
+    MyComments: {
+        screen: MyCommentsPage,
+        navigationOptions: {
+            header: null
+        }
+    },
+    MyPush: {
+        screen: MyPushPage,
+        navigationOptions: {
+            header: null
+        }
+    },
+    CheckMessage: {
+        screen: CheckMessagePage,
+        navigationOptions: {
+            header: null
+        }
+    },
+    Help: {
+        screen: HelpPage,
+        navigationOptions: {
+            header: null
+        }
+    },
+    Feedback: {
+        screen: FeedbackPage,
+        navigationOptions: {
+            header: null
+        }
+    },
+    Settings: {
+        screen: SettingsPage,
         navigationOptions: {
             header: null
         }
